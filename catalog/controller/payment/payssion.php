@@ -2,47 +2,49 @@
 class ControllerPaymentPayssion extends Controller {
 	protected $pm_id = '';
 	public function index() {
-		$data['button_confirm'] = $this->language->get('button_confirm');
+		$this->data['button_confirm'] = $this->language->get('button_confirm');
 
 		$this->load->model('checkout/order');
 
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
 		if (!$this->config->get('payssion_test')) {
-			$data['action'] = 'https://www.payssion.com/payment/create.html';
+			$this->data['action'] = 'https://www.payssion.com/payment/create.html';
 		} else {
-			$data['action'] = 'http://sandbox.payssion.com/payment/create.html';
+			$this->data['action'] = 'http://sandbox.payssion.com/payment/create.html';
 		}
 
-		$data['pm_id'] = $this->pm_id;
-		$data['api_key'] = $this->config->get('payssion_apikey');
-		$data['track_id'] = $order_info['order_id'];
-		$data['amount'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
-		$data['currency'] = $order_info['currency_code'];
-		$data['description'] = $this->config->get('config_name') . ' - #' . $order_info['order_id'];
-		$data['payer_name'] = $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'];
+		$this->data['pm_id'] = $this->pm_id;
+		$this->data['api_key'] = $this->config->get('payssion_apikey');
+		$this->data['track_id'] = $order_info['order_id'];
+		$this->data['amount'] = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false);
+		$this->data['currency'] = $order_info['currency_code'];
+		$this->data['description'] = $this->config->get('config_name') . ' - #' . $order_info['order_id'];
+		$this->data['payer_name'] = $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'];
 
 // 		if (!$order_info['payment_address_2']) {
-// 			$data['address'] = $order_info['payment_address_1'] . ', ' . $order_info['payment_city'] . ', ' . $order_info['payment_zone'];
+// 			$this->data['address'] = $order_info['payment_address_1'] . ', ' . $order_info['payment_city'] . ', ' . $order_info['payment_zone'];
 // 		} else {
-// 			$data['address'] = $order_info['payment_address_1'] . ', ' . $order_info['payment_address_2'] . ', ' . $order_info['payment_city'] . ', ' . $order_info['payment_zone'];
+// 			$this->data['address'] = $order_info['payment_address_1'] . ', ' . $order_info['payment_address_2'] . ', ' . $order_info['payment_city'] . ', ' . $order_info['payment_zone'];
 // 		}
 
-		//$data['postcode'] = $order_info['payment_postcode'];
-		$data['country'] = $order_info['payment_iso_code_2'];
-		//$data['telephone'] = $order_info['telephone'];
-		$data['payer_email'] = $order_info['email'];
+		//$this->data['postcode'] = $order_info['payment_postcode'];
+		$this->data['country'] = $order_info['payment_iso_code_2'];
+		//$this->data['telephone'] = $order_info['telephone'];
+		$this->data['payer_email'] = $order_info['email'];
 		
-		$data['notify_url'] = $this->url->link('payment/payssion/notify');
-		$data['success_url'] = $this->url->link('payment/payssion/callback');
-		$data['redirect_url'] = $this->url->link('payment/payssion/callback');
+		$this->data['notify_url'] = $this->url->link('payment/payssion/notify');
+		$this->data['success_url'] = $this->url->link('payment/payssion/callback');
+		$this->data['redirect_url'] = $this->url->link('payment/payssion/callback');
 
-		$data['api_sig'] = $this->generateSignature($data, $this->config->get('payssion_secretkey'));
+		$this->data['api_sig'] = $this->generateSignature($this->data, $this->config->get('payssion_secretkey'));
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/payssion.tpl')) {
-			return $this->load->view($this->config->get('config_template') . '/template/payment/payssion.tpl', $data);
+			$this->template = $this->config->get('config_template') . '/template/payment/payssion.tpl';
 		} else {
-			return $this->load->view('default/template/payment/payssion.tpl', $data);
+			$this->template =  'default/template/payment/payssion.tpl';
 		}
+		
+		$this->render();
 	}
 	
 	private function generateSignature(&$req, $secretKey) {
@@ -55,24 +57,24 @@ class ControllerPaymentPayssion extends Controller {
 	public function callback() {
 		$this->load->language('payment/payssion');
 	
-		$data['title'] = sprintf($this->language->get('heading_title'), $this->config->get('config_name'));
+		$this->data['title'] = sprintf($this->language->get('heading_title'), $this->config->get('config_name'));
 	
-		if (!$this->request->server['HTTPS']) {
-			$data['base'] = $this->config->get('config_url');
+		if (!isset($this->request->server['HTTPS']) || ($this->request->server['HTTPS'] != 'on')) {
+			$this->data['base'] = $this->config->get('config_url');
 		} else {
-			$data['base'] = $this->config->get('config_ssl');
+			$this->data['base'] = $this->config->get('config_ssl');
 		}
 	
-		$data['language'] = $this->language->get('code');
-		$data['direction'] = $this->language->get('direction');
+		$this->data['language'] = $this->language->get('code');
+		$this->data['direction'] = $this->language->get('direction');
 	
-		$data['heading_title'] = sprintf($this->language->get('heading_title'), $this->config->get('config_name'));
+		$this->data['heading_title'] = sprintf($this->language->get('heading_title'), $this->config->get('config_name'));
 	
-		$data['text_response'] = $this->language->get('text_response');
-		$data['text_success'] = $this->language->get('text_success');
-		$data['text_success_wait'] = sprintf($this->language->get('text_success_wait'), $this->url->link('checkout/success'));
-		$data['text_failure'] = $this->language->get('text_failure');
-		$data['text_failure_wait'] = sprintf($this->language->get('text_failure_wait'), $this->url->link('checkout/checkout', '', 'SSL'));
+		$this->data['text_response'] = $this->language->get('text_response');
+		$this->data['text_success'] = $this->language->get('text_success');
+		$this->data['text_success_wait'] = sprintf($this->language->get('text_success_wait'), $this->url->link('checkout/success'));
+		$this->data['text_failure'] = $this->language->get('text_failure');
+		$this->data['text_failure_wait'] = sprintf($this->language->get('text_failure_wait'), $this->url->link('checkout/checkout', '', 'SSL'));
 	
 		if (isset($this->request->post['state']) && $this->request->post['state'] == 'complete') {
 			$message = '';
@@ -109,23 +111,24 @@ class ControllerPaymentPayssion extends Controller {
 				
 			$this->model_checkout_order->addOrderHistory($track_id, $this->config->get('payssion_order_status_id'), $message, false);
 				
-			$data['continue'] = $this->url->link('checkout/success');
+			$this->data['continue'] = $this->url->link('checkout/success');
 				
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/payssion_success.tpl')) {
-				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/payment/payssion_success.tpl', $data));
+				$this->template = $this->config->get('config_template') . '/template/payment/payssion_success.tpl';
 			} else {
-				$this->response->setOutput($this->load->view('default/template/payment/payssion_success.tpl', $data));
+				$this->template = 'default/template/payment/payssion_success.tpl';
 			}
 		} else {
-			$data['continue'] = $this->url->link('checkout/cart');
+			$this->data['continue'] = $this->url->link('checkout/cart');
 				
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/payssion_failure.tpl')) {
-				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/payment/payssion_failure.tpl', $data));
+				$this->template = $this->config->get('config_template') . '/template/payment/payssion_failure.tpl';
 			} else {
-				$this->response->setOutput($this->load->view('default/template/payment/payssion_failure.tpl', $data));
+				$this->template = 'default/template/payment/payssion_failure.tpl';
 			}
 		}
 		
+		$this->response->setOutput($this->render());
 	}
 
 	public function notify() {
@@ -133,9 +136,9 @@ class ControllerPaymentPayssion extends Controller {
 		$this->load->model('checkout/order');
 		if ($this->isValidNotify()) {
 			if (!$this->request->server['HTTPS']) {
-				$data['base'] = $this->config->get('config_url');
+				$this->data['base'] = $this->config->get('config_url');
 			} else {
-				$data['base'] = $this->config->get('config_ssl');
+				$this->data['base'] = $this->config->get('config_ssl');
 			}
 			
 			$state = $this->request->post['state'];

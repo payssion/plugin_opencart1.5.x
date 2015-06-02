@@ -16,8 +16,8 @@
   <input type="hidden" name="redirect_url"  value="<?php echo $redirect_url; ?>" />
 
   <div class="buttons">
-    <div class="pull-right">
-      <input type="submit" value="<?php echo $button_confirm; ?>" class="btn btn-primary" />
+    <div class="right">
+      <input type="submit" value="<?php echo $button_confirm; ?>" class="button" />
     </div>
   </div>
 </form>
