@@ -134,7 +134,10 @@ class ControllerPaymentPayssion extends Controller {
 	public function notify() {
 		$track_id = $this->request->post['track_id'];
 		$this->load->model('checkout/order');
-		if ($this->isValidNotify()) {
+		$order_info = $this->model_checkout_order->getOrder($track_id);
+		if (!$order_info) {
+			$this->response->setOutput('order id not found');
+		} else if ($this->isValidNotify()) {
 			if (!$this->request->server['HTTPS']) {
 				$this->data['base'] = $this->config->get('config_url');
 			} else {
@@ -183,12 +186,17 @@ class ControllerPaymentPayssion extends Controller {
 					'error' => $this->config->get('payssion_failed_status_id')
 			);
 				
-			$this->model_checkout_order->update($track_id, $status_list[$state], $message);
-			$this->response->setOutput('success');
+			if (!$order_info['order_status_id']) {
+				$this->model_checkout_order->confirm($track_id, $status_list[$state], $message);
+			} else {
+				$this->model_checkout_order->update($track_id, $status_list[$state], $message);
+			}
+			
+			$this->response->setOutput('notify success');
 			
 		} else {
-			$this->model_checkout_order->update($track_id, $this->config->get('config_order_status_id'), $this->language->get('text_pw_mismatch'));
-			$this->response->setOutput('verify failed');
+			$this->model_checkout_order->confirm($track_id, $this->config->get('config_order_status_id'), $this->language->get('text_pw_mismatch'));
+			$this->response->setOutput('notify verify failed');
 		}
 
 	}
