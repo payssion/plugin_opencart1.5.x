@@ -183,11 +183,11 @@ class ControllerPaymentPayssion extends Controller {
 					'error' => $this->config->get('payssion_failed_status_id')
 			);
 				
-			$this->model_checkout_order->addOrderHistory($track_id, $status_list[$state], $message);
+			$this->model_checkout_order->update($track_id, $status_list[$state], $message);
 			$this->response->setOutput('success');
 			
 		} else {
-			$this->model_checkout_order->addOrderHistory($track_id, $this->config->get('config_order_status_id'), $this->language->get('text_pw_mismatch'));
+			$this->model_checkout_order->update($track_id, $this->config->get('config_order_status_id'), $this->language->get('text_pw_mismatch'));
 			$this->response->setOutput('verify failed');
 		}
 
