@@ -57,12 +57,6 @@
             </td>
           </tr>
           <tr>
-            <td><span data-toggle="tooltip" title="<?php echo $help_total; ?>"><?php echo $entry_total; ?></span></td>
-            <td>
-              <input type="text" name="payssion_total" value="<?php echo $payssion_total; ?>" placeholder="<?php echo $entry_total; ?>" id="input-total" />
-            </td>
-          </tr>
-          <tr>
             <td><?php echo $entry_order_status; ?></td>
             <td>
               <select name="payssion_order_status_id" id="input-order-status">
