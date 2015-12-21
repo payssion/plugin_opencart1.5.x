@@ -34,6 +34,9 @@ $_['text_title_nganluongvn']		= 'Nganluong';
 $_['text_title_atmvaid']		    = 'Indonesia ATM Network Transfer Virtual Account';
 $_['text_title_paysbuyth']		= 'Paysbuy';
 $_['text_title_molpay']		= 'MOLPay';
+$_['text_title_dineromailar'] = 'Dinero Mail Argentina';
+$_['text_title_redpagosuy']					= 'RedPagos Uruguay';
+$_['text_title_bancochilecl'] = 'Banco de Chile';
 
 $_['text_response']				= '';
 $_['text_success']				= '... your payment was successfully received.';
