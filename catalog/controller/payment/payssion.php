@@ -188,7 +188,7 @@ class ControllerPaymentPayssion extends Controller {
 			);
 				
 			if (!$order_info['order_status_id']) {
-				$this->model_checkout_order->confirm($track_id, $status_list[$state], $message);
+				$this->model_checkout_order->confirm($track_id, $status_list[$state], $message, 'completed' == $state);
 			} else {
 				$this->model_checkout_order->update($track_id, $status_list[$state], $message);
 			}
