@@ -41,6 +41,12 @@ $_['text_title_redcompracl']    = 'Redcompra';
 $_['text_title_ideal']    = 'iDeal';
 $_['text_title_webmoney']    = 'Webmoney';
 $_['text_title_yandexmoney']		= 'Yandex.Money';
+$_['text_title_rapipagoar']		= 'Rapi Pago';
+$_['text_title_pagofacilar']		= 'Pago Fácil';
+$_['text_title_bbvape']		= 'BBVA';
+$_['text_title_interbankpe']		= 'interbank';
+$_['text_title_pagoefectivope']		= 'Pago Efectivo';
+
 
 $_['text_response']				= '';
 $_['text_success']				= '... your payment was successfully received.';
