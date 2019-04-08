@@ -47,6 +47,7 @@ $_['text_title_bbvape']		= 'BBVA';
 $_['text_title_interbankpe']		= 'interbank';
 $_['text_title_pagoefectivope']		= 'Pago Efectivo';
 $_['text_title_bankcardtr']    = 'Turkish Credit/Bank Card';
+$_['text_title_banktransfereu']    = 'European Bank Transfer';
 
 $_['text_response']				= '';
 $_['text_success']				= '... your payment was successfully received.';

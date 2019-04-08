@@ -77,41 +77,7 @@ class ControllerPaymentPayssion extends Controller {
 		$this->data['text_failure'] = $this->language->get('text_failure');
 		$this->data['text_failure_wait'] = sprintf($this->language->get('text_failure_wait'), $this->url->link('checkout/checkout', '', 'SSL'));
 	
-		if (isset($this->request->post['state']) && $this->request->post['state'] == 'complete') {
-			$message = '';
-				
-			if (isset($this->request->post['track_id'])) {
-				$message .= 'track_id: ' . $this->request->post['track_id'] . "\n";
-			}
-				
-			if (isset($this->request->post['pm_id'])) {
-				$message .= 'pm_id: ' . $this->request->post['pm_id'] . "\n";
-			}
-		
-			if (isset($this->request->post['state'])) {
-				$message .= 'state: ' . $this->request->post['state'] . "\n";
-			}
-				
-			if (isset($this->request->post['amount'])) {
-				$message .= 'amount: ' . $this->request->post['amount'] . "\n";
-			}
-				
-			if (isset($this->request->post['paid'])) {
-				$message .= 'paid: ' . $this->request->post['paid'] . "\n";
-			}
-				
-			if (isset($this->request->post['currency'])) {
-				$message .= 'currency: ' . $this->request->post['currency'] . "\n";
-			}
-				
-			if (isset($this->request->post['notify_sig'])) {
-				$message .= 'notify_sig: ' . $this->request->post['notify_sig'] . "\n";
-			}
-				
-			$this->load->model('checkout/order');
-				
-			$this->model_checkout_order->addOrderHistory($track_id, $this->config->get('payssion_order_status_id'), $message, false);
-				
+		if (isset($this->request->get['state']) && $this->request->get['state'] == 'complete') {
 			$this->data['continue'] = $this->url->link('checkout/success');
 				
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/payment/payssion_success.tpl')) {
