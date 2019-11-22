@@ -44,12 +44,14 @@ $_['text_title_yandexmoney']		= 'Yandex.Money';
 $_['text_title_rapipagoar']		= 'Rapi Pago';
 $_['text_title_pagofacilar']		= 'Pago Fácil';
 $_['text_title_bbvape']		= 'BBVA';
+$_['text_title_bcppe']		= 'BCP';
 $_['text_title_interbankpe']		= 'interbank';
 $_['text_title_pagoefectivope']		= 'Pago Efectivo';
 $_['text_title_bankcardtr']    = 'Turkish Credit/Bank Card';
 $_['text_title_banktransfereu']    = 'European Bank Transfer';
 $_['text_title_efectyco']    = 'Efecty Colombia';
 $_['text_title_pseco']    = 'PSE Colombia';
+$_['text_title_mercadopagomx']    = 'Mercadopago Mexico';
 
 $_['text_response']				= '';
 $_['text_success']				= '... your payment was successfully received.';
