@@ -54,6 +54,7 @@ $_['text_title_pseco']    = 'PSE Colombia';
 $_['text_title_mercadopagomx']    = 'Mercadopago Mexico';
 $_['text_title_mybank']    = 'Mybank';
 $_['text_title_pixbr']    = 'PIX';
+$_['text_title_trustly']    = 'Trustly';
 
 $_['text_response']				= '';
 $_['text_success']				= '... your payment was successfully received.';
