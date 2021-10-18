@@ -57,6 +57,8 @@ $_['text_title_pixbr']    = 'PIX';
 $_['text_title_trustly']    = 'Trustly';
 $_['text_title_picpaybr']    = 'PicPay';
 $_['text_title_payupl']    = 'PayU Poland';
+$_['text_title_payucz']    = 'PayU Czechia';
+$_['text_title_airtm']    = 'Airtm';
 
 $_['text_response']				= '';
 $_['text_success']				= '... your payment was successfully received.';
